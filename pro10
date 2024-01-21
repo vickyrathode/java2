@@ -1,0 +1,36 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+public class JDBC {
+public static void main(String[] args) {
+String url = "jdbc:mysql://localhost:3306/jdbc";
+String user = "root";
+String password = "";
+try {
+Connection connection = DriverManager.getConnection(url, user, password);
+System.out.println("Connection to student database has been established.");
+String query="SELECT * FROM students";
+PreparedStatement preparedStatement=connection.prepareStatement(query);
+ResultSet resultSet =preparedStatement.executeQuery();
+while(resultSet.next()){
+String name=resultSet.getString("name");
+String usn=resultSet.getString("usn");
+int sem =resultSet.getInt("sem");
+int age =resultSet.getInt("age");
+String course =resultSet.getString("course");
+String dob =resultSet.getString("dob");
+String address =resultSet.getString("address");
+System.out.println("Name: "+name+"\nUSN: "+usn+"\nSem: "+sem+"\nAge:
+"+age+"\nCourse: "+course+"\nAdress: "+address);
+}
+resultSet.close();
+preparedStatement.close();
+connection.close();
+} catch (SQLException e) {
+System.out.println("Connection to student database has failed. Error: " +
+e.getMessage());
+}
+}
+}
